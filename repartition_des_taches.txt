@@ -1,0 +1,16 @@
+### Répartition des Taches 
+
+### Amayes DJERMOUNE 
+- Analyse Syntaxique 
+- Implémentation du code d'analyse syntaxique
+- Implémentation de l'interface de la calculatrice (main) 
+- Rédaction de rapport, README.md, Grammaires.txt et Program.txt (Spécification et Explications  de l'implémentation ) 
+
+
+
+### Yao Hippolyte FOLLY 
+- Analyse Lexicale 
+- Implémentation du code d'analyse lexicale 
+- Rédaction de rapport, README.md et Program.txt (Spécifications et Explications de l'implémentation ) 
+- Intégration de code d'analyse lexicale, syntaxique et le main   
+- Gestion du Makefile 

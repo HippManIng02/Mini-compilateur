@@ -1,0 +1,151 @@
+========================================================================================
+Explication du Code - Analyseur et Évaluateur d'Expressions Mathématiques (Calculatrice)
+========================================================================================
+
+--------------------------
+Fichier : calc.h et calc.c
+--------------------------
+Le fichier d'en-tête contient les déclarations de fonctions et les définitions de constantes utilisées dans le programme.
+
+Fonctions :
+    - lexical_analysis
+        - Description : Cette fonction réalise l'analyse lexicale d'une chaîne de caractères en utilisant un automate fini déterministe (AFD).
+        - Paramètres :
+            - const AFD afd : L'AFD utilisé pour l'analyse lexicale.
+            - char *words : La chaîne de caractères à analyser.
+        - Retour :
+            - char* : La fonction renvoie la chaîne de caractères si l'analyse est réussie, sinon renvoie '\0'.
+
+    - do_transition
+        - Description : Cette fonction effectue la transition dans l'AFD en fonction de l'état actuel et de l'élément en cours d'analyse.
+        - Paramètres :
+            - char current_state : L'état actuel de l'AFD.
+            - const Transition *t : Tableau de transitions de l'AFD.
+            - char item : L'élément en cours d'analyse.
+        - Retour :
+            - char : L'état suivant après la transition.
+
+    - verify_digit
+        - Description : Cette fonction vérifie si un caractère est un chiffre.
+        - Paramètres :
+            - char element : Le caractère à vérifier.
+        - Retour :
+            - char : Renvoie 'd' si le caractère est un chiffre, sinon '\0'.
+
+    - verify_op
+        - Description : Cette fonction vérifie si un caractère est un opérateur mathématique.
+        - Paramètres :
+            - char element : Le caractère à vérifier.
+        - Retour :
+            - char : Renvoie 'p' si le caractère est un opérateur, sinon '\0'.
+
+    - contains
+        - Description : Cette fonction vérifie si un caractère est présent dans une chaîne de caractères.
+        - Paramètres :
+            - const char *words : La chaîne de caractères dans laquelle rechercher.
+            - char caractere : Le caractère à rechercher.
+        - Retour :
+            - int : Renvoie 1 si le caractère est présent, sinon 0.
+
+----------------
+Fichier : lex.c
+----------------
+
+Analyseur Lexical pour un Automate Fini Déterministe (AFD) : 
+
+Structures de Données Utilisées
+
+1. AFD Structure :
+    - Cette structure représente l'Automate Fini Déterministe.
+    - Elle a trois champs :
+        - `start_state` : l'état initial de l'automate.
+        - `transitions` : un tableau de transitions décrivant les règles de déplacement entre les états.
+        - `end_states` : un tableau d'états finaux, indiquant les états valides pour une reconnaissance réussie.
+
+2. Transition Structure :
+    - Cette structure représente une transition entre deux états de l'AFD.
+    - Elle a trois champs :
+        - `start` : l'état de départ de la transition.
+        - `element` : le caractère déclenchant la transition.
+        - `end` : l'état résultant après la transition.
+
+
+Fonctions Principales : 
+
+1. lexical_analysis(const AFD, char*) :
+    - Fonction principale pour l'analyse lexicale.
+    - Utilise l'AFD pour analyser la chaîne de caractères fournie.
+    - Retourne la chaîne de caractères si l'analyse est réussie, sinon '\0'.
+
+2. do_transition(char, const Transition*, char) :
+    - Fonction pour effectuer une transition d'état dans l'AFD.
+    - Utilise la fonction `verify_digit` et `verify_op` pour normaliser certains caractères en 'd' (digit) ou 'p' (operator).
+    - Retourne l'état suivant après la transition.
+
+Fonctions d'Analyse Auxiliaires : 
+
+1. verify_digit(char) :
+    - Fonction pour vérifier si un caractère est un chiffre.
+    - Retourne 'd' si c'est le cas, sinon '\0'.
+
+2. verify_op(char) :
+    - Fonction pour vérifier si un caractère est un opérateur.
+    - Retourne 'p' si c'est le cas, sinon '\0'.
+
+3. contans(const char*, char) :
+    - Fonction pour vérifier la présence d'un caractère dans une chaîne.
+    - Retourne 1 si le caractère est présent, sinon 0.
+
+
+----------------
+Fichier : syn.c
+----------------
+
+1. Fichiers inclus :
+   - stdio.h    : Pour les fonctions d'entrée/sortie standard
+   - stdlib.h   : Pour les fonctions de gestion de la mémoire (malloc, free, etc.)
+   - math.h     : Pour les fonctions mathématiques (pow)
+   - string.h   : Pour les fonctions de manipulation de chaînes de caractères
+
+2. Structures de données :
+   - AnalyseurSyntaxique : Structure pour suivre les jetons consommés.
+   - ArbreExpression    : Structure pour représenter l'arbre d'expression.
+
+3. Constantes :
+   - JETONS_VALIDES : Définit les caractères valides pour les jetons.
+   - TAILLE_MAX_ENTREE : Taille maximale de la chaîne d'entrée.
+
+4. Fonctions Principales :
+   - tokenizer : Convertit la chaîne d'entrée en jetons valides.
+   - analyser : Fonction principale pour analyser les jetons et créer l'arbre d'expression.
+   - calculer : Fonction pour évaluer la valeur de l'arbre d'expression.
+   - afficherResultat : Affiche le résultat en fonction du type (entier ou flottant).
+
+5. Fonctions d'Analyse Syntaxique Auxiliaires :
+   - analyserExpressionAdditive : Analyse les expressions additives.
+   - analyserExpressionMultiplicative : Analyse les expressions multiplicatives.
+   - analyserExpressionAtomique : Analyse les expressions atomiques.
+   - analyserNombre : Analyse les nombres.
+
+6. Boucle Principale (main) :
+   - Obtient l'entrée de l'utilisateur en boucle jusqu'à ce que "q" ou "Q" soit saisi.
+   - Utilise le tokenizer pour obtenir les jetons de la chaîne d'entrée.
+   - Utilise l'analyseur pour créer l'arbre d'expression à partir des jetons.
+   - Utilise la fonction calculer pour obtenir la valeur de l'expression.
+   - Affiche le résultat en utilisant la fonction afficherResultat.
+   - Libère la mémoire allouée pour les structures.
+
+7. Fonction CreerArbreExpression :
+   - Alloue de la mémoire pour une nouvelle structure ArbreExpression.
+   - Initialise les valeurs de la structure avec les paramètres donnés.
+
+8. Fonction LibererArbreExpression :
+   - Libère récursivement la mémoire allouée pour une structure ArbreExpression.
+
+
+9. Grammaires.txt : 
+   -Fichier contenant la grammaire utilisée pour l'Analyse Syntaxique 
+
+========================================================================================================
+Amayes DJERMOUNE - Yao HIPPOLYTE               IATIC4 - Institut des Sciences et Techniques des Yvelines
+========================================================================================================
